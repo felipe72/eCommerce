@@ -16,14 +16,16 @@
 
     <v-btn
       icon
-      medium
+      small
+      class="mx-1"
     >
       <v-icon>mdi-bell-outline</v-icon>
     </v-btn>
 
     <v-btn
       icon
-      medium
+      small
+      class="mx-1"
     >
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
