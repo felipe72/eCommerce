@@ -1,20 +1,20 @@
 <template>
-  <v-container
+  <div
     fluid
-    class="fill-height px-3 py-0"
+    class="fill-height flex-grow-1 px-3 py-0 flex-column flex-nowrap"
   >
     <breadcrumbs
       :items="items"
       class="px-0 align-self-baseline"
     />
-    <v-container class="fill-height align-baseline">
+    <div class="d-flex">
       <filters />
       <div class="d-flex flex-grow-1 flex-column">
         <search-bar />
         <item-list />
       </div>
-    </v-container>
-  </v-container>
+    </div>
+  </div>
 </template>
 
 <script>
