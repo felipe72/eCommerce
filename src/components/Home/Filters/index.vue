@@ -1,15 +1,23 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <multi-range />
-      <v-divider />
-      <categories />
-      <v-divider />
-      <brands />
-      <v-divider />
-      <rating />
-    </v-card-text>
-  </v-card>
+  <div class="d-flex flex-column">
+    <p
+      class="mb-5"
+      style="height: fit-content; margin-top: 14px"
+    >
+      Filters
+    </p>
+    <v-card>
+      <v-card-text>
+        <multi-range />
+        <v-divider />
+        <categories />
+        <v-divider />
+        <brands />
+        <v-divider />
+        <rating />
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>

@@ -8,11 +8,8 @@
       class="px-0 align-self-baseline"
     />
     <div class="d-flex">
-      <filters />
-      <div class="d-flex flex-grow-1 flex-column">
-        <search-bar />
-        <item-list />
-      </div>
+      <filters class="d-flex mr-4" />
+      <item-list />
     </div>
   </div>
 </template>
@@ -21,11 +18,10 @@
 import Breadcrumbs from './Breadcrumbs';
 import Filters from './Filters';
 import ItemList from './ItemList';
-import SearchBar from './SearchBar';
 
 export default {
   name: 'Home',
-  components: { Breadcrumbs, Filters, ItemList, SearchBar },
+  components: { Breadcrumbs, Filters, ItemList },
   data() {
     return {
       items: [
