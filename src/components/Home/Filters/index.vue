@@ -10,8 +10,8 @@
       <v-card-text>
         <multi-range />
         <v-divider />
-        <categories />
-        <v-divider />
+        <!-- <categories />
+        <v-divider /> -->
         <brands />
         <v-divider />
         <rating />
@@ -34,6 +34,6 @@ import Rating from './Rating';
 
 export default {
   name: 'Filters',
-  components: { MultiRange, Categories, Brands, Rating },
+  components: { MultiRange, /* Categories, */ Brands, Rating },
 };
 </script>

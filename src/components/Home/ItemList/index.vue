@@ -9,13 +9,16 @@
       </p>
 
       <v-select
-        :items="['abc', 'bca', 'cab']"
+        v-model="sortModel"
+        :items="sortItems"
         dense
-        label="Default"
+        label="Alphabetically"
+        item-text="label"
+        item-value="value"
         solo
         hide-details
         class="ml-auto mr-4"
-        style="max-width: 140px"
+        style="max-width: 180px"
       />
 
       <v-btn
@@ -41,7 +44,6 @@
     <search-bar class="mb-4" />
     <div
       v-if="listViewModel"
-      class="fill-height d-flex flex-column justify-space-between"
     >
       <!-- {{ items.slice(0,10) }} -->
       <long-item
@@ -51,7 +53,9 @@
         :title="item.title"
         :brand="item.brand"
         :description="item.description"
-        :price="item.price"
+        :price="item.price.toFixed(2)"
+        :stars="item.stars.toFixed(1)"
+        class="mb-6"
       />
     </div>
 
@@ -66,7 +70,8 @@
         :title="item.title"
         :brand="item.brand"
         :description="item.description"
-        :price="item.price"
+        :price="item.price.toFixed(2)"
+        :stars="item.stars.toFixed(1)"
         class="child"
       />
     </div>
@@ -91,8 +96,26 @@ import { mapGetters, mapActions, mapState } from 'vuex';
 export default {
   name: 'ItemList',
   components: { LongItem, SearchBar, ShortItem },
+  data() {
+    return {
+      selectedSort: 0,
+      sortItems: [
+        {
+          label: 'Alphabetically',
+          value: 1,
+        },
+        { label: 'Lowest Price', value: 2 },
+        { label: 'Highest Price', value: 3 },
+      ],
+      sorts: [
+        (a, b) => a.title.localeCompare(b.title),
+        (a, b) => a.price - b.price,
+        (a, b) => b.price - a.price,
+      ],
+    };
+  },
   computed: {
-    ...mapState(['page', 'listView']),
+    ...mapState(['page', 'listView', 'sort']),
     ...mapGetters(['paginated', 'numOfPages', 'amountOfProducts']),
     pageModel: {
       get() {
@@ -110,9 +133,22 @@ export default {
         this.setListView(value);
       },
     },
+    sortModel: {
+      get() {
+        return this.selectedSort;
+      },
+      set(value) {
+        this.selectedSort = value;
+        this.setSort(this.sorts[value-1]);
+      },
+    },
   },
   methods: {
-    ...mapActions({ setPage: 'setPage', setListView: 'setListView' }),
+    ...mapActions({
+      setPage: 'setPage',
+      setListView: 'setListView',
+      setSort: 'setSort',
+    }),
     toggleView() {
       this.listViewModel = !this.listViewModel;
     },
@@ -123,7 +159,7 @@ export default {
 <style lang="sass" scoped>
 .father
   margin: 0 0 0 -1rem
-  min-width: 775px
+  min-width: 798px
   .child
     flex: 1 0 20% //* less than 25% but more or equal to 20% to account for margins - when 4 across is required */
     margin:1rem 0 0 1rem

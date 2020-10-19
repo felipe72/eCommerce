@@ -4,19 +4,19 @@
       Brands
     </p>
     <v-checkbox
-      v-for="category in categories"
-      :key="category.label"
+      v-for="brand in brands"
+      :key="brand.label"
       v-model="selected"
       dense
       multiple
       hide-details
-      :label="category.label"
-      :value="category"
+      :label="brand.label"
+      :value="brand"
       class="my-1"
     >
       <template #append>
         <p class="my-0 caption">
-          42
+          {{ brand.count }}
         </p>
       </template>
     </v-checkbox>
@@ -24,24 +24,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'Brands',
   data() {
     return {
       selected: [],
-      categories: [
-        { label: 'Insigni', value: 'insigni' },
-        { label: 'Samsung', value: 'samsung' },
-        { label: 'Apple', value: 'apple' },
-        { label: 'HP', value: 'hp' },
-        { label: 'Sony', value: 'sony' },
-        { label: 'Metra', value: 'metra' },
-        { label: 'Dyne', value: 'dyne' },
-        { label: 'LG', value: 'lg' },
-        { label: 'Canon', value: 'canon' },
-        { label: 'Speck', value: 'speck' },
-      ]
-    }
-  }
+    };
+  },
+  computed: {
+    ...mapGetters({ brands: 'brands' }),
+  },
 };
 </script>

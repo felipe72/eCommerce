@@ -13,7 +13,7 @@
           class="ma-0 px-2"
         >
           <p class="ma-0 mr-2">
-            3.4
+            {{ stars }}
           </p>
           <v-icon small>
             mdi-star-outline
@@ -48,7 +48,11 @@ export default {
       required: true,
     },
     price: {
-      type: Number,
+      type: String,
+      required: true,
+    },
+    stars: {
+      type: String,
       required: true,
     },
   },

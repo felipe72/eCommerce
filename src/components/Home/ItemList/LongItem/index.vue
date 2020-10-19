@@ -14,7 +14,10 @@
       vertical
       class="ml-4"
     />
-    <actions :price="price" />
+    <actions
+      :price="price"
+      :stars="stars"
+    />
   </v-card>
 </template>
 
@@ -44,7 +47,11 @@ export default {
       required: true,
     },
     price: {
-      type: Number,
+      type: String,
+      required: true,
+    },
+    stars: {
+      type: String,
       required: true,
     },
   },

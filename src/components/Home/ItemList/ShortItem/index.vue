@@ -4,8 +4,17 @@
       max-width="250"
       max-height="570"
     >
-      <avatar :hover="hover" :src="image" />
-      <info :title="title" :brand="brand" :description="description" :price="price" />
+      <avatar
+        :hover="hover"
+        :src="image"
+      />
+      <info
+        :title="title"
+        :brand="brand"
+        :description="description"
+        :price="price"
+        :stars="stars"
+      />
     </v-card>
   </v-hover>
 </template>
@@ -35,9 +44,13 @@ export default {
       required: true,
     },
     price: {
-      type: Number,
+      type: String,
       required: true,
     },
+    stars: {
+      type: String,
+      required: true,
+    }
   },
 }
 </script>

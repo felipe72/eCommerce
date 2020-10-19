@@ -9,7 +9,7 @@
     </p>
     <p
       class="caption mt-2 block-with-text"
-      v-html="description"
+      v-html="description.slice(0, 300) + '...'"
     />
   </div>
 </template>
@@ -27,34 +27,9 @@ export default {
       required: true,
     },
     description: {
+      type: String,
       required: true,
     }
   }
 }
 </script>
-
-<style lang="sass" scoped>
-.block-with-text 
-  overflow: hidden
-  position: relative 
-  line-height: 1.2em
-  max-height: 9.4em 
-  text-align: justify  
-  margin-right: -1em
-  padding-right: 1em
-
-.block-with-text:before 
-  content: '...'
-  position: absolute
-  right: 0
-  bottom: 0
-
-.block-with-text:after 
-  content: ''
-  position: absolute
-  right: 0
-  width: 1em
-  height: 1em
-  margin-top: 0.2em
-  background: white
-</style>
