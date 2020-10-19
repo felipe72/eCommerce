@@ -15,7 +15,7 @@
         solo
         hide-details
         class="ml-auto mr-4"
-        style="max-width: 140px;"
+        style="max-width: 140px"
       />
 
       <v-btn
@@ -38,7 +38,7 @@
     </div>
     <search-bar class="mb-4" />
     <div
-      v-if="false"
+      v-if="true"
       class="fill-height d-flex flex-column justify-space-between"
     >
       <long-item
@@ -57,6 +57,13 @@
         class="child"
       />
     </div>
+    <v-pagination
+      v-model="page"
+      class="mt-2"
+      :length="15"
+      :total-visible="7"
+      circle
+    />
   </div>
   <!-- If the amount of items is equal to 5, use [fill-height, d-flex, flex-column, justify-space-between], otherwise use mt-6 on each card -->
 </template>
@@ -69,7 +76,10 @@ import SearchBar from './SearchBar';
 export default {
   name: 'ItemList',
   components: { LongItem, SearchBar, ShortItem },
-}
+  data() {
+    return { page: 5 };
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -78,5 +88,5 @@ export default {
   min-width: 775px
   .child
     flex: 1 0 20% //* less than 25% but more or equal to 20% to account for margins - when 4 across is required */
-    margin:0 0 .5rem .5rem 
+    margin:0 0 .5rem .5rem
 </style>

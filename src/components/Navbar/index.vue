@@ -9,6 +9,11 @@
       dense
       class="list fill-height"
     >
+      <v-list-item>
+        <v-list-item-content>
+          <v-img src="https://www.grancursosonline.com.br/assets/site/img/logo/logo.svg" />
+        </v-list-item-content>
+      </v-list-item>
       <v-list-item
         link
         @click="redirect('root')"
@@ -52,6 +57,6 @@ export default {
     flex-direction: column
     > div
       flex: unset
-    > div:nth-child(2)
+    > div:nth-child(3)
       margin-top: auto
 </style>

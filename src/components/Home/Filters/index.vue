@@ -17,6 +17,12 @@
         <rating />
       </v-card-text>
     </v-card>
+    <v-btn
+      color="primary"
+      class="mt-3"
+    >
+      CLEAR ALL FILTERS
+    </v-btn>
   </div>
 </template>
 

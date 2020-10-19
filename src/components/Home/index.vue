@@ -5,7 +5,7 @@
   >
     <breadcrumbs
       :items="items"
-      class="px-0 align-self-baseline"
+      class="px-0 py-2 align-self-baseline"
     />
     <div class="d-flex">
       <filters class="d-flex mr-4" />
