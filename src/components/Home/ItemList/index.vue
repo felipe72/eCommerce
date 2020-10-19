@@ -5,7 +5,7 @@
         class="mb-0 align-self-end"
         style="height: fit-content"
       >
-        7,618 results found in 5ms
+        {{ amountOfProducts }} results found in 5ms
       </p>
 
       <v-select
@@ -19,9 +19,10 @@
       />
 
       <v-btn
-        v-if="false"
+        v-if="!listViewModel"
         min-width="35"
         class="px-0"
+        @click="toggleView"
       >
         <v-icon> mdi-view-headline </v-icon>
       </v-btn>
@@ -32,18 +33,25 @@
         elevation="2"
         min-width="35"
         class="px-0"
+        @click="toggleView"
       >
         <v-icon> mdi-view-grid-outline </v-icon>
       </v-btn>
     </div>
     <search-bar class="mb-4" />
     <div
-      v-if="true"
+      v-if="listViewModel"
       class="fill-height d-flex flex-column justify-space-between"
     >
+      <!-- {{ items.slice(0,10) }} -->
       <long-item
-        v-for="n in 5"
-        :key="n"
+        v-for="item in paginated"
+        :key="item.name"
+        :image="item.image"
+        :title="item.title"
+        :brand="item.brand"
+        :description="item.description"
+        :price="item.price"
       />
     </div>
 
@@ -52,15 +60,20 @@
       class="father fill-height d-flex flex-wrap"
     >
       <short-item
-        v-for="n in 10"
-        :key="n"
+        v-for="item in paginated"
+        :key="item.name"
+        :image="item.image"
+        :title="item.title"
+        :brand="item.brand"
+        :description="item.description"
+        :price="item.price"
         class="child"
       />
     </div>
     <v-pagination
-      v-model="page"
+      v-model="pageModel"
       class="mt-2"
-      :length="15"
+      :length="numOfPages"
       :total-visible="7"
       circle
     />
@@ -73,20 +86,45 @@ import LongItem from './LongItem';
 import ShortItem from './ShortItem';
 import SearchBar from './SearchBar';
 
+import { mapGetters, mapActions, mapState } from 'vuex';
+
 export default {
   name: 'ItemList',
   components: { LongItem, SearchBar, ShortItem },
-  data() {
-    return { page: 5 };
+  computed: {
+    ...mapState(['page', 'listView']),
+    ...mapGetters(['paginated', 'numOfPages', 'amountOfProducts']),
+    pageModel: {
+      get() {
+        return this.page;
+      },
+      set(value) {
+        this.setPage(value);
+      },
+    },
+    listViewModel: {
+      get() {
+        return this.listView;
+      },
+      set(value) {
+        this.setListView(value);
+      },
+    },
+  },
+  methods: {
+    ...mapActions({ setPage: 'setPage', setListView: 'setListView' }),
+    toggleView() {
+      this.listViewModel = !this.listViewModel;
+    },
   },
 };
 </script>
 
 <style lang="sass" scoped>
 .father
-  margin: 0 0 0 -.5rem
+  margin: 0 0 0 -1rem
   min-width: 775px
   .child
     flex: 1 0 20% //* less than 25% but more or equal to 20% to account for margins - when 4 across is required */
-    margin:0 0 .5rem .5rem
+    margin:1rem 0 0 1rem
 </style>

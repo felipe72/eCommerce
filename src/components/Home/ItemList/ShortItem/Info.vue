@@ -1,12 +1,11 @@
 <template>
-  <v-card-title class="d-flex ">
+  <v-card-title class="d-flex flex-column align-stretch">
     <div class="d-flex flex-grow-1">
       <p
         class="subtitle-2 mb-0 d-inline-block text-truncate"
         style="max-width: 150px;"
-      >
-        Apple Watch Series 4 GPS
-      </p>
+        v-html="title"
+      />
       <div class="d-flex ml-auto">
         <v-chip
           label
@@ -23,16 +22,65 @@
       </div>
     </div>
     <p class="caption">
-      By apple
+      By {{ brand }}
     </p>
-    <p class="caption mt-2">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at viverra metus. Morbi a nunc sem. Vestibulum elementum laoreet lectus nec dictum. Donec ac justo vel orci condimentum volutpat at id est. Duis consectetur justo in massa tincidunt, ut tempus lacus sagittis.
-    </p>
+    <p
+      class="caption mt-2 block-with-text "
+      v-html="description.slice(0, 300) + '...'"
+    />
   </v-card-title>
 </template>
 
 <script>
 export default {
-  name: 'Info'
+  name: 'Info',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+  },
 }
 </script>
+
+<style lang="sass" scoped>
+html 
+  --lh: 1.4rem
+  line-height: var(--lh)
+
+
+.block-with-text 
+  --max-lines: 1
+  position: relative
+  max-height: calc(var(--lh) * var(--max-lines))
+  overflow: hidden
+  padding-right: 1rem // space for ellipsis 
+
+.block-with-text::before 
+  position: absolute
+  content: "..."
+  inset-block-end: 0 // "bottom" 
+  inset-inline-end: 0 // "right" 
+
+.block-with-text::after 
+  content: ""
+  position: absolute
+  inset-inline-end: 0 // "right" 
+  width: 1rem
+  height: 1rem
+  background: white
+
+
+</style>

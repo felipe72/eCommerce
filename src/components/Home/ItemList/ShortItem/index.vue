@@ -2,9 +2,10 @@
   <v-hover v-slot:default="{ hover }">
     <v-card
       max-width="250"
+      max-height="570"
     >
-      <avatar :hover="hover" />
-      <info />
+      <avatar :hover="hover" :src="image" />
+      <info :title="title" :brand="brand" :description="description" :price="price" />
     </v-card>
   </v-hover>
 </template>
@@ -16,6 +17,28 @@ import Info from './Info'
 export default {
   name: 'ShortItem',
   components: { Avatar, Info },
+  props: {
+    image: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+  },
 }
 </script>
 

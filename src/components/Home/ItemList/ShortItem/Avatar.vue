@@ -2,7 +2,7 @@
   <v-img
     height="250"
     width="250"
-    src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
+    :src="src"
   >
     <v-expand-transition>
       <div
@@ -37,6 +37,10 @@ export default {
   props: {
     hover: {
       type: Boolean,
+      required: true,
+    },
+    src: {
+      type: String,
       required: true,
     },
   },
