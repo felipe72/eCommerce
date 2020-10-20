@@ -1,5 +1,12 @@
 # ecommerce
 
+## Node Version
+
+```
+node -> 10.19.0
+npm -> 6.13.4
+```
+
 ## Project setup
 ```
 npm install
