@@ -29,27 +29,30 @@ import { mapGetters, mapActions, mapState } from 'vuex';
 
 export default {
   name: 'Brands',
-  data() {
-    return { selected: [] }
+  props: {
+    value: {
+      type: Array,
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({ brands: 'brands' }),
     ...mapState(['chosenBrands']),
     brandModel: {
       get() {
-        return this.selected;
+        return this.value;
       },
       set(value) {
-        this.selected = value;
+        this.$emit('input', value);
         this.debouncedBrands(value);
-      }
+      },
     },
     debouncedBrands() {
       return debounce(this.setBrands, 1000);
     },
   },
   methods: {
-    ...mapActions({ setBrands: 'setBrands'})
-  }
+    ...mapActions({ setBrands: 'setBrands' }),
+  },
 };
 </script>

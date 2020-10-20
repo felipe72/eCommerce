@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import items from '@/data/data.json';
 
 import countBy from 'lodash/countBy';
+import inRange from 'lodash/inRange';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,8 @@ export default new Vuex.Store({
     listView: true,
     search: '',
     chosenBrands: [],
+    range: [0, 999999],
+    rating: '',
     sort: (a, b) => a.title.localeCompare(b.title),
   },
   getters: {
@@ -24,10 +27,12 @@ export default new Vuex.Store({
     numOfPages: (_, { afterFilters, itemsPerPage }) =>
       Math.floor(afterFilters.length / itemsPerPage),
     amountOfProducts: (_, { afterFilters }) => afterFilters.length,
-    afterFilters: ({ items, search, chosenBrands, sort }) =>
+    afterFilters: ({ items, search, chosenBrands, sort, range, rating }) =>
       items
         .filter((x) => x.title.includes(search) || !search)
         .filter((x) => chosenBrands.includes(x.brand) || !chosenBrands.length)
+        .filter((x) => inRange(x.price, range[0], range[1]))
+        .filter((x) => Number(x.stars) >= rating || !rating)
         .sort(sort),
     brands: (_, { afterFilters }) =>
       Object.entries(countBy(afterFilters, 'brand'))
@@ -38,6 +43,11 @@ export default new Vuex.Store({
         }))
         .sort((a, b) => b.count - a.count)
         .slice(0, 10),
+    ratings: (_, { afterFilters }) =>
+      Object.entries(countBy(afterFilters, x => Math.floor(x.stars)))
+        .map(([stars, count]) => ({ stars: Number(stars), count }))
+        .sort((a, b) => b.stars - a.stars)
+        .slice(0, 3),
     itemsPerPage: ({ listView }) =>
       listView ? ITEMS_PER_PAGE_LARGE : ITEMS_PER_PAGE_SMALL,
   },
@@ -58,6 +68,12 @@ export default new Vuex.Store({
     SET_BRANDS(state, value) {
       state.chosenBrands = value;
     },
+    SET_RANGE(state, value) {
+      state.range = value;
+    },
+    SET_RATING(state, value) {
+      state.rating = value;
+    },
   },
   actions: {
     setPage({ commit }, page) {
@@ -73,8 +89,18 @@ export default new Vuex.Store({
       commit('SET_SEARCH', value);
     },
     setBrands({ commit }, value) {
-      console.log(JSON.parse(JSON.stringify(value)));
       commit('SET_BRANDS', value);
     },
+    setRange({ commit }, value) {
+      commit('SET_RANGE', value);
+    },
+    setRating({ commit }, value) {
+      commit('SET_RATING', value);
+    },
+    resetFilters({ commit }) {
+      commit('SET_BRANDS', []);
+      commit('SET_RANGE', [0, 99999]);
+      commit('SET_RATING', '');
+    }
   },
 });
