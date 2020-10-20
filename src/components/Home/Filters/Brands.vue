@@ -6,12 +6,12 @@
     <v-checkbox
       v-for="brand in brands"
       :key="brand.label"
-      v-model="selected"
+      v-model="brandModel"
       dense
       multiple
       hide-details
       :label="brand.label"
-      :value="brand"
+      :value="brand.label"
       class="my-1"
     >
       <template #append>
@@ -24,16 +24,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import debounce from 'lodash/debounce';
+import { mapGetters, mapActions, mapState } from 'vuex';
+
 export default {
   name: 'Brands',
   data() {
-    return {
-      selected: [],
-    };
+    return { selected: [] }
   },
   computed: {
     ...mapGetters({ brands: 'brands' }),
+    ...mapState(['chosenBrands']),
+    brandModel: {
+      get() {
+        return this.selected;
+      },
+      set(value) {
+        this.selected = value;
+        this.debouncedBrands(value);
+      }
+    },
+    debouncedBrands() {
+      return debounce(this.setBrands, 1000);
+    },
   },
+  methods: {
+    ...mapActions({ setBrands: 'setBrands'})
+  }
 };
 </script>

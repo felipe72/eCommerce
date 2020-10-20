@@ -114,9 +114,17 @@ export default {
       ],
     };
   },
+  watch: {
+    afterFilters: {
+      deep: true,
+      handler() {
+        this.pageModel = 1;
+      }
+    },
+  },
   computed: {
     ...mapState(['page', 'listView', 'sort']),
-    ...mapGetters(['paginated', 'numOfPages', 'amountOfProducts']),
+    ...mapGetters(['paginated', 'numOfPages', 'amountOfProducts', 'afterFilters']),
     pageModel: {
       get() {
         return this.page;

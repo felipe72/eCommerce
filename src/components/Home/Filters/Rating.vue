@@ -13,7 +13,7 @@
         dense
         readonly
         length="5"
-        size="24"
+        size="20"
         :value="n"
       />
       <p class="my-0 ml-1 ">

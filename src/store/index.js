@@ -14,19 +14,23 @@ export default new Vuex.Store({
     items,
     page: 1,
     listView: true,
-    filters: [],
+    search: '',
+    chosenBrands: [],
     sort: (a, b) => a.title.localeCompare(b.title),
   },
   getters: {
     paginated: ({ page }, { afterFilters, itemsPerPage }) =>
       afterFilters.slice((page - 1) * itemsPerPage, page * itemsPerPage),
-    numOfPages: ({ items }, { itemsPerPage }) =>
-      Math.floor(items.length / itemsPerPage),
-    amountOfProducts: ({ items }) => items.length,
-    afterFilters: ({ items, filters, sort }) =>
-      filters.reduce((prev, current) => prev.filter(current), items).sort(sort),
-    brands: ({ afterFilters }) =>
-      Object.entries(countBy(items, 'brand'))
+    numOfPages: (_, { afterFilters, itemsPerPage }) =>
+      Math.floor(afterFilters.length / itemsPerPage),
+    amountOfProducts: (_, { afterFilters }) => afterFilters.length,
+    afterFilters: ({ items, search, chosenBrands, sort }) =>
+      items
+        .filter((x) => x.title.includes(search) || !search)
+        .filter((x) => chosenBrands.includes(x.brand) || !chosenBrands.length)
+        .sort(sort),
+    brands: (_, { afterFilters }) =>
+      Object.entries(countBy(afterFilters, 'brand'))
         .map(([brand, count]) => ({
           count,
           label: brand,
@@ -42,10 +46,17 @@ export default new Vuex.Store({
       state.page = page;
     },
     SET_LIST_VIEW(state, value) {
+      state.page = 1;
       state.listView = value;
     },
     SET_SORT(state, value) {
       state.sort = value;
+    },
+    SET_SEARCH(state, value) {
+      state.search = value;
+    },
+    SET_BRANDS(state, value) {
+      state.chosenBrands = value;
     },
   },
   actions: {
@@ -57,6 +68,13 @@ export default new Vuex.Store({
     },
     setSort({ commit }, value) {
       commit('SET_SORT', value);
+    },
+    setSearch({ commit }, value) {
+      commit('SET_SEARCH', value);
+    },
+    setBrands({ commit }, value) {
+      console.log(JSON.parse(JSON.stringify(value)));
+      commit('SET_BRANDS', value);
     },
   },
 });
